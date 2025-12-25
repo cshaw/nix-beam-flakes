@@ -6,10 +6,12 @@
   perSystem = {pkgs, ...}: let
     mkBeamShell = pkgSet:
       pkgs.mkShell {
-        packages =
-          (with pkgSet; [elixir erlang])
-          ++ lib.optional (pkgSet ? "elixir-ls") pkgSet.elixir-ls
-          ++ lib.optional (pkgSet ? "erlang-ls") pkgSet.erlang-ls;
+        packages = (
+          with pkgSet; [
+            elixir
+            erlang
+          ]
+        );
 
         shellHook = ''
           elixir --version

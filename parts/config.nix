@@ -28,15 +28,7 @@ in {
               internal = true;
               type = types.nullOr types.package;
             };
-            elixir-ls = mkOption {
-              internal = true;
-              type = types.nullOr types.package;
-            };
             erlang = mkOption {
-              internal = true;
-              type = types.nullOr types.package;
-            };
-            erlang-ls = mkOption {
               internal = true;
               type = types.nullOr types.package;
             };
@@ -80,17 +72,21 @@ in {
     }: let
       cfg = config.beamWorkspace;
     in {
-      beamWorkspace.packages = mkIf (cfg.versions.elixir != null && cfg.versions.erlang != null) (let
-        pkgset = beam-flakes-lib.mkPackageSet {
-          inherit pkgs;
-          elixirVersion = beam-flakes-lib.normalizeElixir cfg.versions.elixir;
-          erlangVersion = cfg.versions.erlang;
-          elixirLanguageServer = false;
-          erlangLanguageServer = false;
-        };
-      in {
-        inherit (pkgset) elixir erlang elixir-ls erlang-ls;
-      });
+      beamWorkspace.packages = mkIf (cfg.versions.elixir != null && cfg.versions.erlang != null) (
+        let
+          pkgset = beam-flakes-lib.mkPackageSet {
+            inherit pkgs;
+            elixirVersion = beam-flakes-lib.normalizeElixir cfg.versions.elixir;
+            erlangVersion = cfg.versions.erlang;
+          };
+        in {
+          inherit
+            (pkgset)
+            elixir
+            erlang
+            ;
+        }
+      );
     };
   };
 }
