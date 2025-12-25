@@ -112,7 +112,6 @@ A complete example:
       perSystem = _: {
         beamWorkspace = {
           enable = true;
-          devShell.languageServers.elixir = true;
           versions = {
             elixir = "1.16.2";
             erlang = "26.2.3";
